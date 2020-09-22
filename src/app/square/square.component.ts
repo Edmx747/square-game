@@ -44,6 +44,7 @@ export class SquareComponent implements OnInit {
     return 'rgb(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ')';
   }
   crazyModeActivated(): void {
+
     this.squares.forEach(element => {
       element.x = this.getRandomInt('x');
       element.y = this.getRandomInt('y');
@@ -52,8 +53,12 @@ export class SquareComponent implements OnInit {
 
   crazyMode(): void {
     this.crazyActivated = true;
-    console.log(this.squares);
-    setInterval(this.crazyModeActivated, 2000);
+    setInterval(() => {
+      this.squares.forEach(element => {
+        element.x = this.getRandomInt('x');
+        element.y = this.getRandomInt('y');
+      });
+    }, 2000);
   }
 
 }
