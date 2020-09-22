@@ -1,0 +1,9 @@
+<div class="crazy">
+  <button (click)="crazyMode()" >Crazy Mode</button>
+</div>
+<div class="container">
+  <svg *ngFor="let square of squares; let index = index" [ngStyle]="{'x': square.x , 'y': square.y }">
+    <rect (click)="divideSquare()" [ngStyle]="{'x': square.x , 'y': square.y, 'fill':square.color, 'width':square.width , 'height':square.height }" />
+  </svg>
+</div>
+
