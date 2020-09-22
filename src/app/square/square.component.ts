@@ -1,5 +1,5 @@
 import { Square } from './../square';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-square',
@@ -7,9 +7,11 @@ import { Component, ElementRef, OnInit } from '@angular/core';
   styleUrls: ['./square.component.css']
 })
 export class SquareComponent implements OnInit {
+  @ViewChild('crazyButton') button: ElementRef;
   squares: Square[] = [];
   initialWidth = window.innerWidth;
-  crazyActivated: boolean;
+  crazyActivated = false;
+  active;
   constructor() { }
   ngOnInit(): void {
     this.squares.push({
@@ -35,16 +37,15 @@ export class SquareComponent implements OnInit {
   }
   getRandomInt(position: string): number {
     if (position === 'x') {
-      return Math.floor(Math.random() * Math.floor(window.innerWidth));
+      return Math.floor(Math.random() * Math.floor(window.innerWidth - this.initialWidth));
     } else {
-      return Math.floor(Math.random() * Math.floor(window.innerHeight));
+      return Math.floor(Math.random() * Math.floor(window.innerHeight  - this.initialWidth));
     }
   }
   getRandomColor(): string {
     return 'rgb(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ')';
   }
   crazyModeActivated(): void {
-
     this.squares.forEach(element => {
       element.x = this.getRandomInt('x');
       element.y = this.getRandomInt('y');
@@ -52,13 +53,15 @@ export class SquareComponent implements OnInit {
   }
 
   crazyMode(): void {
-    this.crazyActivated = true;
-    setInterval(() => {
-      this.squares.forEach(element => {
-        element.x = this.getRandomInt('x');
-        element.y = this.getRandomInt('y');
-      });
-    }, 2000);
+    this.crazyActivated = !this.crazyActivated;
+    if(this.crazyActivated){
+      this.button.nativeElement.textContent = 'STOP';
+      this.active = setInterval(() => this.crazyModeActivated(), 2000);
+    } else {
+      this.button.nativeElement.textContent = 'Crazy Mode';
+      clearInterval(this.active);
+    }
+
   }
 
 }
