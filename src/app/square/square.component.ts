@@ -1,5 +1,6 @@
 import { Square } from './../square';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-square',
@@ -54,7 +55,7 @@ export class SquareComponent implements OnInit {
 
   crazyMode(): void {
     this.crazyActivated = !this.crazyActivated;
-    if(this.crazyActivated){
+    if (this.crazyActivated){
       this.button.nativeElement.textContent = 'STOP';
       this.active = setInterval(() => this.crazyModeActivated(), 2000);
     } else {
